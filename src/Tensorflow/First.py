@@ -8,7 +8,7 @@ from tensorflow import keras
 
 model = tf.keras.Sequential([keras.layers.Dense(units=1, input_shape=[1])])
 
-model.compile(optimizer='sgd', loss='mean_squared_error')
+model.compile(optimizer='sgd', loss='mean_squared_error',metrics=['acc'])
 
 xs = np.array([-1.0, 0.0, 1.0, 2.0, 3.0, 4.0], dtype=float)
 
@@ -19,6 +19,6 @@ yTest = np.array([9.0, 5.0, -3.0], dtype=float)
 
 # vu la simpliciter du probléme epochs=1000 reste une valeur exécutable par nos ordinateur
 model.fit(xs, ys, epochs=1000)
-model.validate(xTest,yTest)
+model.evaluate(xTest,yTest)
 # le modèle n'est pas précis à 100%, mais il est proche ; il n'est pas sûr que le résultat soit 19
 print(f'prediction {model.predict([10.0])}')
