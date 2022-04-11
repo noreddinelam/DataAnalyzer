@@ -10,4 +10,5 @@ pyvenv.cfg
 .idea
 pip-selfcheck.json
 src/modules/geckodriver.log
+src/modules/__pycache__
 src/dataset
