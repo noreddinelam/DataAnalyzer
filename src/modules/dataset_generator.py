@@ -10,9 +10,14 @@ from selenium.webdriver.common.by import By
 
 from src.modules.utils import make_dir
 
+from webdriver_manager.firefox import GeckoDriverManager
+
+
 DATASET_FOLDER = "../dataset"
 
 # TODO : refactor
+
+driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
 
 
 def main():
@@ -79,7 +84,7 @@ def search_images(on, search_url, n_images):
     options = Options()
     options.headless = False
 
-    browser = webdriver.Firefox(options=options)
+    browser = driver
     browser.maximize_window()
     browser.get(search_url)
     time.sleep(3)
