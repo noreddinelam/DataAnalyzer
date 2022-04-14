@@ -1,13 +1,21 @@
-def main():
-    print("")
-
 import PIL
 from pathlib import Path
-from PIL import UnidentifiedImageError
-i=0
-path = Path(r"C:\Users\idris\OneDrive\Bureau\Study\s6\DATA\kagglecatsanddogs_3367a\training\dog").rglob("*.jpg")
-for img_p in path:
-    try:
-        img = PIL.Image.open(img_p)
-    except PIL.UnidentifiedImageError:
-        print(img_p)
+
+
+def data_validator(path):
+    path = Path(path).rglob("*.*")
+    for img_path in path:
+        try:
+            img = PIL.Image.open(img_path)
+            print(img_path)
+        except PIL.UnidentifiedImageError:
+            print(img_path)
+            raise
+
+
+if __name__ == '__main__':
+    """
+    param:
+        path: directory path
+    """
+    data_validator(r"C:\Users\idris\OneDrive\Bureau\Study\s6\DataAnalyzer\src\dataset\images\cats")
