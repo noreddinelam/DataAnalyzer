@@ -12,8 +12,8 @@ from src.modules.utils import make_dir
 
 from webdriver_manager.firefox import GeckoDriverManager
 
-
-DATASET_FOLDER = "../dataset"
+DATASET_TRAINING_FOLDER = "../resources/cat-or-dog-dataset/cat-or-dog/cats"
+DATASET_VALIDATION_FOLDER = "../resources/cat-or-dog-dataset/cat-or-dog-validation/cats"
 
 # TODO : refactor
 
@@ -21,8 +21,6 @@ driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
 
 
 def main():
-    make_dir(DATASET_FOLDER)
-
     data = input("What are you looking for ? ")
     n_images = int(input("How many images do you want ? "))
 
@@ -37,9 +35,6 @@ def start_generator(data, n_images):
     PEXELS_IMAGES_URL = "https://www.pexels.com/search/"
     PIXABAY_IMAGES_URL = "https://pixabay.com/images/search/"
     GOOGLE_IMAGES_URL = "https://www.google.com/search?site=&tbm=isch&source=hp&biw=1873&bih=990&"
-
-    DATASET_FOLDER_IMAGES = DATASET_FOLDER + "/images"
-    make_dir(DATASET_FOLDER_IMAGES)
 
     search_url = PEXELS_IMAGES_URL + data
     pexels_search_images = search_images("Pexels", search_url, n_images)
@@ -69,13 +64,11 @@ def start_generator(data, n_images):
     print(f"Found total {len(image_links)} image" + ('s' if len(image_links) > 1 else ''))
 
     if len(image_links) > 0:
-        DATASET_FOLDER_IMAGES_DATA = DATASET_FOLDER_IMAGES + '/' + data + ('' if data.endswith('s') else 's')
+        if os.path.exists(DATASET_TRAINING_FOLDER):
+            shutil.rmtree(DATASET_TRAINING_FOLDER)
+            make_dir(DATASET_TRAINING_FOLDER)
 
-        if os.path.exists(DATASET_FOLDER_IMAGES_DATA):
-            shutil.rmtree(DATASET_FOLDER_IMAGES_DATA)
-        make_dir(DATASET_FOLDER_IMAGES_DATA)
-
-        download_images(image_links, DATASET_FOLDER_IMAGES_DATA)
+        download_images(image_links, DATASET_TRAINING_FOLDER)
 
 
 def search_images(on, search_url, n_images):
@@ -95,8 +88,9 @@ def search_images(on, search_url, n_images):
 def get_image_links(on, browser, n_images):
     last_height = browser.execute_script("return document.body.scrollHeight")
     img_results = []
-
-    while True:
+    image_links = []
+    i = 0
+    while i < n_images:
         browser.execute_script("window.scrollTo(0,document.body.scrollHeight)")
         time.sleep(3)
 
@@ -108,7 +102,7 @@ def get_image_links(on, browser, n_images):
                 className = ".button--2AOTE"
             elif on == "Google":
                 className = ".YstHxe input"
-            browser.find_element_by_css_selector(className).click()
+            browser.find_element(by=By.CSS_SELECTOR, value=className).click()
             time.sleep(3)
         except:
             pass
@@ -129,21 +123,14 @@ def get_image_links(on, browser, n_images):
 
         img_results = browser.find_elements(by=By.CLASS_NAME, value=className)
 
-        i = 0
         for result in img_results:
             image_link = result.get_attribute("src")
             if image_link is not None and image_link.startswith("https"):
+                image_links.append(image_link)
                 i += 1
 
-        if i >= n_images:
-            break
-
-    image_links = []
-    for result in img_results:
-        image_link = result.get_attribute("src")
-
-        if image_link is not None and len(image_links) < n_images and image_link.startswith("https"):
-            image_links.append(image_link)
+            if i >= n_images:
+                break
 
     return image_links
 
