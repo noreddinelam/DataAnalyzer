@@ -67,8 +67,9 @@ def start_generator(data, n_images):
         if os.path.exists(DATASET_TRAINING_FOLDER):
             shutil.rmtree(DATASET_TRAINING_FOLDER)
             make_dir(DATASET_TRAINING_FOLDER)
-
-        download_images(image_links, DATASET_TRAINING_FOLDER)
+        border = int(0.8 * len(image_links))
+        download_images(image_links[:border], DATASET_TRAINING_FOLDER)
+        download_images(image_links[border:], DATASET_VALIDATION_FOLDER)
 
 
 def search_images(on, search_url, n_images):
