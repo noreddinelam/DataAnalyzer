@@ -12,8 +12,8 @@ from src.modules.utils import make_dir
 
 from webdriver_manager.firefox import GeckoDriverManager
 
-DATASET_TRAINING_FOLDER = "../resources/cat-or-dog-dataset/cat-or-dog/cats"
-DATASET_VALIDATION_FOLDER = "../resources/cat-or-dog-dataset/cat-or-dog-validation/cats"
+DATASET_TRAINING_FOLDER = "../resources/cat-or-dog-dataset/cat-or-dog/"
+DATASET_VALIDATION_FOLDER = "../resources/cat-or-dog-dataset/cat-or-dog-validation/"
 
 # TODO : refactor
 
@@ -24,14 +24,20 @@ def main():
     data = input("What are you looking for ? ")
     n_images = int(input("How many images do you want ? "))
 
+    data_training_path = DATASET_TRAINING_FOLDER + data + ('' if data.endswith('s') else 's')
+    data_validation_path = DATASET_VALIDATION_FOLDER + data + ('' if data.endswith('s') else 's')
+
+    make_dir(data_training_path)
+    make_dir(data_validation_path)
+
     start = time.perf_counter()
-    start_generator(data, n_images)
+    start_generator(data, n_images, data_training_path, data_validation_path)
     end = time.perf_counter()
 
     print(f"Done in {end - start:0.4f} seconds !")
 
 
-def start_generator(data, n_images):
+def start_generator(data, n_images, data_training_path, data_validation_path):
     PEXELS_IMAGES_URL = "https://www.pexels.com/search/"
     PIXABAY_IMAGES_URL = "https://pixabay.com/images/search/"
     GOOGLE_IMAGES_URL = "https://www.google.com/search?site=&tbm=isch&source=hp&biw=1873&bih=990&"
@@ -64,12 +70,15 @@ def start_generator(data, n_images):
     print(f"Found total {len(image_links)} image" + ('s' if len(image_links) > 1 else ''))
 
     if len(image_links) > 0:
-        if os.path.exists(DATASET_TRAINING_FOLDER):
-            shutil.rmtree(DATASET_TRAINING_FOLDER)
-            make_dir(DATASET_TRAINING_FOLDER)
+        if os.path.exists(data_training_path):
+            shutil.rmtree(data_training_path)
+            make_dir(data_training_path)
+        if os.path.exists(data_validation_path):
+            shutil.rmtree(data_validation_path)
+            make_dir(data_validation_path)
         border = int(0.8 * len(image_links))
-        download_images(image_links[:border], DATASET_TRAINING_FOLDER)
-        download_images(image_links[border:], DATASET_VALIDATION_FOLDER)
+        download_images(image_links[:border], data_training_path)
+        download_images(image_links[border:], data_validation_path)
 
 
 def search_images(on, search_url, n_images):
