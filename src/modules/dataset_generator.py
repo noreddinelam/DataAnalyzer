@@ -126,7 +126,7 @@ def get_image_links(on, browser, n_images):
 
         for result in img_results:
             image_link = result.get_attribute("src")
-            if image_link is not None and image_link.startswith("https"):
+            if image_link is not None and image_link.startswith("https") and image_link not in image_links:
                 image_links.append(image_link)
                 i += 1
 
