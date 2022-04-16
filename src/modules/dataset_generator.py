@@ -40,7 +40,7 @@ def main():
 def start_generator(data, n_images, data_training_path, data_validation_path):
     PEXELS_IMAGES_URL = "https://www.pexels.com/search/"
     PIXABAY_IMAGES_URL = "https://pixabay.com/images/search/"
-    GOOGLE_IMAGES_URL = "https://www.google.com/search?site=&tbm=isch&source=hp&biw=1873&bih=990&"
+    GOOGLE_IMAGES_URL = "https://www.google.com/search?site=&tbm=isch&source=hp&biw=1873&bih=990&q="
 
     search_url = PEXELS_IMAGES_URL + data
     pexels_search_images = search_images("Pexels", search_url, n_images)
@@ -60,7 +60,7 @@ def start_generator(data, n_images, data_training_path, data_validation_path):
         current_n_images = current_n_images - len(pixabay_image_links)
 
         if len(image_links) < n_images:
-            search_url = GOOGLE_IMAGES_URL + "q=" + data
+            search_url = GOOGLE_IMAGES_URL + data
             google_search_images = search_images("Google", search_url, current_n_images)
             google_search_images[0].quit()
             google_image_links = google_search_images[1]
@@ -112,7 +112,7 @@ def get_image_links(on, browser, n_images):
                 className = ".button--2AOTE"
             elif on == "Google":
                 className = ".YstHxe input"
-            browser.find_element(by=By.CSS_SELECTOR, value=className).click()
+            browser.find_element_by_css_selector(className).click()
             time.sleep(3)
         except:
             pass
