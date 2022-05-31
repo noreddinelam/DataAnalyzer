@@ -15,3 +15,5 @@ src/modules/geckodriver.log
 src/modules/__pycache__
 src/dataset
 src/resources/*
+digit_data/*
+
