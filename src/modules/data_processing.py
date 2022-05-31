@@ -46,7 +46,7 @@ def black_and_white(img):
 #TODO : make the white thicker
 
 
-def evaluate_digits_model(img_path):
+def evaluate_digits_model(img_path,model):
     # your images in an array
     img = loadImage(img_path)
     img.show()
@@ -61,10 +61,10 @@ def evaluate_digits_model(img_path):
 
     print(image_color.shape)
     x = np.expand_dims(image_color, axis=0)
-    # classes = model.predict(x)
-    # max_value = max(classes)
-    # max_index = classes.index(max_value)
-    # print(max_index)
+    classes = model.predict(x)
+    max_value = max(classes)
+    max_index = classes.index(max_value)
+    print(max_index)
 
 
 if __name__ == '__main__':
