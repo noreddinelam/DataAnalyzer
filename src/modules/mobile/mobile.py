@@ -25,6 +25,14 @@ Builder.load_string('''
         size_hint_y: None
         height: '48dp'
         on_press: root.capture()
+    Button:
+        id: retry_btn
+        text: 'Retry'
+        size_hint_y: None
+        height: '48dp'
+        on_press: root.retry()
+        opacity: 0
+        disabled: True
     
 ''')
 
@@ -52,29 +60,17 @@ class View(BoxLayout):
         print("Captured")
 
         capture_btn = self.ids["capture_btn"]
-        capture_btn.on_press = "root.retry()"
-        capture_btn.text = "Retry"
-
-
-        """capture_btn = self.ids["capture_btn"]
         capture_btn.opacity = 0
         capture_btn.disabled = True
 
         retry_btn = self.ids["retry_btn"]
         retry_btn.opacity = 1
-        retry_btn.disabled = False"""
+        retry_btn.disabled = False
 
 
     def retry(self):
 
         camera = self.ids['camera']
-        camera.play = True
-
-        capture_btn = self.ids["capture_btn"]
-        capture_btn.on_press = "root.capture()"
-        capture_btn.text = "Capture"
-
-        """camera = self.ids['camera']
         camera.play = True
 
         retry_btn = self.ids["retry_btn"]
@@ -83,7 +79,7 @@ class View(BoxLayout):
 
         capture_btn = self.ids["capture_btn"]
         capture_btn.opacity = 1
-        capture_btn.disabled = False"""
+        capture_btn.disabled = False
 
 
 class Test(App):
