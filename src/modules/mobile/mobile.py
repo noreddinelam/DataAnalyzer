@@ -11,7 +11,7 @@ Builder.load_string('''
     orientation: 'vertical'
     Camera:
         id: camera
-        resolution: (740, 580)
+        resolution: (640, 480)
         play: True
     Label:
         text: 
@@ -19,21 +19,12 @@ Builder.load_string('''
         height: '48dp'
         opacity: 0
         disabled: True 
-    Button:
+    ToggleButton:
         id: capture_btn
         text: 'Capture'
         size_hint_y: None
         height: '48dp'
         on_press: root.capture()
-    Button:
-        id: retry_btn
-        text: 'Retry'
-        size_hint_y: None
-        height: '48dp'
-        on_press: root.retry()
-        opacity: 0
-        disabled: True
-    
 ''')
 
 kivy.require('2.0.0')
@@ -48,39 +39,25 @@ class View(BoxLayout):
         according to their captured time and date.
         '''
         camera = self.ids['camera']
+        capture_btn = self.ids["capture_btn"]
+
+        if not camera.play:
+            capture_btn.text = "Capture"
+            camera.play = True
+            return
+
+        camera.play = False
+        capture_btn.text = "Retry"
+
         timestr = time.strftime("%Y%m%d_%H%M%S")
         filename = "IMG_{}.png".format(timestr)
         camera.export_to_png(filename)
-        camera.play = False
 
         with open(filename, 'rb') as f:
             r = requests.post(url='http://127.0.0.1:8000/upload_image', files={'image': f})
             print(r.json())
 
         print("Captured")
-
-        capture_btn = self.ids["capture_btn"]
-        capture_btn.opacity = 0
-        capture_btn.disabled = True
-
-        retry_btn = self.ids["retry_btn"]
-        retry_btn.opacity = 1
-        retry_btn.disabled = False
-
-
-    def retry(self):
-
-        camera = self.ids['camera']
-        camera.play = True
-
-        retry_btn = self.ids["retry_btn"]
-        retry_btn.opacity = 0
-        retry_btn.disabled = True
-
-        capture_btn = self.ids["capture_btn"]
-        capture_btn.opacity = 1
-        capture_btn.disabled = False
-
 
 class Test(App):
     def build(self):
