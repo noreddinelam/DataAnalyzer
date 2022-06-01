@@ -35,7 +35,7 @@ def black_and_white(img):
             for k in range(3):
                 f += pixels[i, j][k] - pix[k]
 
-            if f > 20 or f < -20:
+            if f > 50 or f < -50:
                 if (f!=0) : print(f)
                 pixels[i, j] = (255, 255, 255)
             else:
@@ -50,7 +50,8 @@ def evaluate_digits_model(img_path,model):
     # your images in an array
     img = loadImage(img_path)
     img.show()
-    black_and_white(img)
+    if( img.size != (28,28)):
+        black_and_white(img)
     img = img.resize((28, 28))
     img.show()
     img = np.array(img)
@@ -62,9 +63,12 @@ def evaluate_digits_model(img_path,model):
     print(image_color.shape)
     x = np.expand_dims(image_color, axis=0)
     classes = model.predict(x)
-    max_value = max(classes)
-    max_index = classes.index(max_value)
-    print(max_index)
+    print(classes)
+    
+    max_value = max(classes[0])
+    print(max_value)
+    max_index = np.where(classes[0] == max_value)
+    print(max_index[0])
 
 
 if __name__ == '__main__':
