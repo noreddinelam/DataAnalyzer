@@ -1,11 +1,15 @@
+import os
+
 import kivy
 import requests
+import numpy
 
 from PIL import Image
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 import time
+
 Builder.load_string('''
 <View>:
     orientation: 'vertical'
@@ -29,11 +33,11 @@ Builder.load_string('''
 
 kivy.require('2.0.0')
 
-class View(BoxLayout):
 
+class View(BoxLayout):
     IMAGE = "None"
 
-    def capture(self):
+    def capture(self) -> None:
         '''
         Function to capture the images and give them the names
         according to their captured time and date.
@@ -52,6 +56,8 @@ class View(BoxLayout):
         timestr = time.strftime("%Y%m%d_%H%M%S")
         filename = "IMG_{}.png".format(timestr)
         camera.export_to_png(filename)
+        # pil_image = Image.frombytes(mode='RGBA', size=camera.texture.size, data=camera.texture.pixels)
+        # numpy_picture = numpy.array(pil_image)
 
         with open(filename, 'rb') as f:
             r = requests.post(url='http://127.0.0.1:8000/upload_image', files={'image': f})
@@ -59,12 +65,9 @@ class View(BoxLayout):
 
         print("Captured")
 
+        os.remove(filename)
+
+
 class Test(App):
-    def build(self):
+    def build(self) -> View:
         return View()
-
-if __name__ == '__main__':
-    Test().run()
-
-
-
