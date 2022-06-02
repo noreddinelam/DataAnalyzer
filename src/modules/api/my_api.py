@@ -14,5 +14,5 @@ async def upload_image(image: UploadFile = File(...)) -> UploadFile:
     return image
 
 
-def run():
+def run_api_server():
     uvicorn.run(app, host="127.0.0.1", port=8000, debug=True)
