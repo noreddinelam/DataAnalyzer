@@ -23,8 +23,8 @@ async def upload_image(image: UploadFile = File(...)) -> dict[str, str]:
     image_name = IMAGES_CAPTURED_PATH + "/" + image.filename
 
     async with aiofiles.open(image_name, 'wb') as out_file:
-        content = await image.read()
-        await out_file.write(content)
+        while content := await image.read(1024):
+            await out_file.write(content)
 
     return {"message": "OK"}
 
