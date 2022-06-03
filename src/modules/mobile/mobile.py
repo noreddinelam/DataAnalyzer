@@ -1,5 +1,8 @@
 import os
 
+from src.modules.api.my_api import run_api_server
+from threading import Thread
+
 import kivy
 import requests
 import numpy
@@ -71,3 +74,11 @@ class View(BoxLayout):
 class Test(App):
     def build(self) -> View:
         return View()
+
+
+if __name__ == "__main__":
+    try:
+        Thread(target=run_api_server).start()
+        Thread(target=Test().run()).start()
+    except KeyboardInterrupt:
+        exit()
