@@ -2,8 +2,10 @@ import PIL
 from PIL import Image
 from pathlib import Path
 
-#training_path = "C:\\Users\\idris\\OneDrive\\Bureau\\Study\\s6\\DATA\\digtis\\mnist_png\\training\\"
-#testing_path =  "C:\\Users\\idris\\OneDrive\\Bureau\\Study\\s6\\DATA\\digtis\\mnist_png\\testing\\"
+"""
+    param:
+        path: directory path
+"""
 
 def data_validator(path):
     path = Path(path).rglob("*.*")
@@ -14,12 +16,4 @@ def data_validator(path):
             print(img_path)
             raise
 
-
-            
-
-if __name__ == '__main__':
-    """
-    param:
-        path: directory path
-    """
 

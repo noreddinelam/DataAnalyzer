@@ -68,7 +68,7 @@ def predict_model(img_path,model):
     max_value = max(classes[0])
     print(max_value)
     max_index = np.where(classes[0] == max_value)
-    print(max_index[0])
+    print(max_index[0][0])
     return max_index[0]
 
 
