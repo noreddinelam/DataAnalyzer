@@ -4,10 +4,15 @@ import uvicorn
 import aiofiles
 import os
 from fastapi import FastAPI, File, UploadFile
+from pydantic import BaseModel
 
 IMAGES_CAPTURED_PATH = "./images_captured"
 
 app = FastAPI()
+
+
+class Data(BaseModel):
+    model: str
 
 
 @app.get("/hello")
@@ -16,7 +21,8 @@ def root():
 
 
 @app.post("/upload_image")
-async def upload_image(image: UploadFile = File(...)) -> dict[str, str]:
+async def upload_image(data: Data, image: UploadFile = File(...)) -> dict[str, str]:
+    print(data)
     if not os.path.exists(IMAGES_CAPTURED_PATH):
         os.mkdir(IMAGES_CAPTURED_PATH)
 
@@ -26,7 +32,7 @@ async def upload_image(image: UploadFile = File(...)) -> dict[str, str]:
         while content := await image.read(1024):
             await out_file.write(content)
 
-    return {"message": "OK"}
+    return {'image': image.filename}
 
 
 def run_api_server():
