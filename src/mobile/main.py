@@ -32,7 +32,7 @@ Builder.load_string('''
         size_hint_y: None
         height: '48dp'
         text: "Choice mode"
-        values: ["Cat or dog", "letter", "number"]
+        values: ["catvsdog", "digit", "letter"]
     ToggleButton:
         id: capture_btn
         text: 'Capture'
@@ -55,7 +55,8 @@ class View(BoxLayout):
         '''
         camera = self.ids['camera']
         capture_btn = self.ids["capture_btn"]
-        spinner = self.ids["spinner_id"]
+        model_name = self.ids["spinner_id"]
+        label = self.ids["label_result"]
 
         if self.sound and camera.play:
             self.sound.play()
@@ -63,6 +64,9 @@ class View(BoxLayout):
         if not camera.play:
             capture_btn.text = "Capture"
             camera.play = True
+            label.text = ''
+            label.opacity = 0
+            label.disabled = True
             return
 
         camera.play = False
@@ -73,8 +77,13 @@ class View(BoxLayout):
         camera.export_to_png(filename)
         # pil_image = Image.frombytes(mode='RGBA', size=camera.texture.size, data=camera.texture.pixels)
         # numpy_picture = numpy.array(pil_image)
-        r = requests.post(url='http://127.0.0.1:8000/upload_image/' + spinner.text, files={'image': open(filename, 'rb')})
-        print(r.json())
+        r = requests.post(url='http://127.0.0.1:8000/upload_image/' + model_name.text, files={'image': open(filename, 'rb')})
+        #print(r.json())
+
+        label.text = r.text
+        label.opacity = 1
+        label.disabled = False
+
 
         print("Captured")
 
