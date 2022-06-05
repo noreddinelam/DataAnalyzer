@@ -3,6 +3,7 @@ from PIL import Image as PImage
 import numpy as np
 import cv2
 
+from tensorflow import keras
 
 width = 28
 height = 28
@@ -38,14 +39,6 @@ def black_and_white(img):
                 pixels[i, j] = (0, 0, 0)
             f=0
 
-
-
-"""
-
-    TODO differencier les models
-
-"""
-
 def predict_model(img_path,model):
     # your images in an array
    
@@ -58,6 +51,9 @@ def predict_model(img_path,model):
             black_and_white(img)
         img = img.resize((28, 28))
     
+    if("cat" in img_path or "dog" in img_path):
+        img = img.resize((150, 150))
+    
     img.show()
     img = np.array(img)
     if (len(img.shape) != 3):
@@ -69,15 +65,35 @@ def predict_model(img_path,model):
     x = np.expand_dims(image_color, axis=0)
     classes = model.predict(x)
     print(classes)
+    print(classes.argmax(1))
+    #max_value = max(classes[0])
+    #print(max_value)
+    #max_index = np.where(classes[0] == max_value)
+    #print(max_index[0][0])
     
-    max_value = max(classes[0])
-    print(max_value)
-    max_index = np.where(classes[0] == max_value)
-    print(max_index[0][0])
-    return max_index[0]
+    return classes.argmax(1)[0]
+
+#Load the model
+
+"""
+
+"""
+digit_model = keras.models.load_model("/home/azureuser/DataAnalyzer/src/digit_model.h5")
+
+
+
+
+def perfom_prediction(img_path,mode):
+    if(mode=="digit"):
+        return predict_model(img_path,digit_model)
+    elif(mode=="letter"):
+        return predict_model(img_path, "you have to replace with the letter model")
+    elif(mode=="catvsdog"):
+        return predict_model(img_path, "you have to replace with the cat/dog model")
+
 
 
 if __name__ == '__main__':
-    "nothing to run"
-    # evaluate_digits_model("/home/azureuser/DataAnalyzer/digit_data/testing/0/3.png")
-    # evaluate_digits_model("/home/azureuser/DataAnalyzer/digit_data/my0_1.png")
+    #Run test
+    img_path = "/home/azureuser/digit_data/testing/0/7410.png"
+    perfom_prediction(img_path,"digit")
