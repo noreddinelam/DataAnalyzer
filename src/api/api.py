@@ -3,15 +3,14 @@ from typing import Dict
 import uvicorn
 import aiofiles
 import os
-from src.data.data_processing import predict_model
+from src.data.data_processing import perfom_prediction
 from fastapi import FastAPI, File, UploadFile
 
 app = FastAPI()
 
 @app.post("/upload_image/{model}")
 async def upload_image(model: str, image: UploadFile = File(...)) -> dict[str, str]:
-    print(model)
-    image_path = "./" + model + "/"
+    image_path = "../api/images_captured/"
     if not os.path.exists(image_path):
         os.mkdir(image_path)
 
@@ -20,8 +19,9 @@ async def upload_image(model: str, image: UploadFile = File(...)) -> dict[str, s
     async with aiofiles.open(image_name, 'wb') as out_file:
         while content := await image.read(1024):
             await out_file.write(content)
-
-    return predict_model(image_name, model)
+    res = perfom_prediction(image_name, model)
+    os.remove(image_name)
+    return res
 
 
 def run_api_server():

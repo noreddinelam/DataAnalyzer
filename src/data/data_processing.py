@@ -25,7 +25,6 @@ def black_and_white(img):
     pixels = img.load()
     pix = pixels[0, 0]
     f=0
-    print(pix)
     for i in range(img.size[0]):  # for every pixel:
         for j in range(img.size[1]):
             for k in range(3):
@@ -39,19 +38,20 @@ def black_and_white(img):
                 pixels[i, j] = (0, 0, 0)
             f=0
 
-def predict_model(img_path,model):
+def predict_model(img_path, model_name, model):
     # your images in an array
    
     img = loadImage(img_path)
-    img.show()
+    #img.show()
     
     #difirencier le model chat vs chien 150*150
-    if("digit" in img_path or "letter" in img_path):
+    if(model_name == "digit" or model_name == "letter"):
         if( img.size != (28,28)):
+            print("ici")
             black_and_white(img)
         img = img.resize((28, 28))
     
-    if("cat" in img_path or "dog" in img_path):
+    if(model_name == "catvsdog"):
         img = img.resize((150, 150))
     
     img.show()
@@ -71,25 +71,20 @@ def predict_model(img_path,model):
     #max_index = np.where(classes[0] == max_value)
     #print(max_index[0][0])
     
-    return classes.argmax(1)[0]
+    return str(classes.argmax(1)[0])
 
 #Load the model
 
-"""
-
-"""
-digit_model = keras.models.load_model("/home/azureuser/DataAnalyzer/src/digit_model.h5")
-
-
+digit_model = keras.models.load_model("../models/digit_model.h5")
 
 
 def perfom_prediction(img_path,mode):
     if(mode=="digit"):
-        return predict_model(img_path,digit_model)
+        return predict_model(img_path, mode, digit_model)
     elif(mode=="letter"):
-        return predict_model(img_path, "you have to replace with the letter model")
+        return predict_model(img_path, mode, "you have to replace with the letter model")
     elif(mode=="catvsdog"):
-        return predict_model(img_path, "you have to replace with the cat/dog model")
+        return predict_model(img_path, mode, "you have to replace with the cat/dog model")
 
 
 

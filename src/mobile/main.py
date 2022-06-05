@@ -78,9 +78,8 @@ class View(BoxLayout):
         # pil_image = Image.frombytes(mode='RGBA', size=camera.texture.size, data=camera.texture.pixels)
         # numpy_picture = numpy.array(pil_image)
         r = requests.post(url='http://127.0.0.1:8000/upload_image/' + model_name.text, files={'image': open(filename, 'rb')})
-        #print(r.json())
 
-        label.text = r.text
+        label.text = "It's a " + r.text
         label.opacity = 1
         label.disabled = False
 
@@ -96,8 +95,9 @@ class Test(App):
 
 
 if __name__ == "__main__":
-    try:
+    """try:
         Thread(target=run_api_server).start()
         Thread(target=Test().run()).start()
     except KeyboardInterrupt:
-        exit()
+        exit()"""
+    Test().run()

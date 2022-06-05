@@ -16,4 +16,5 @@ src/modules/__pycache__
 src/dataset
 src/resources/*
 digit_data/*
+src/api/images_captured
 
