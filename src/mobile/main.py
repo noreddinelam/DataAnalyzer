@@ -1,21 +1,15 @@
 import os
-import json
 
-from src.modules.api.my_api import run_api_server
+from src.api.api import run_api_server
 from threading import Thread
 
 import kivy
 import requests
-import numpy
 
-from PIL import Image
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.core.audio import SoundLoader
-from kivy.uix.dropdown import DropDown
-from kivy.uix.button import Button
-from kivy.base import runTouchApp
 import time
 
 Builder.load_string('''
@@ -52,7 +46,7 @@ kivy.require('2.0.0')
 
 class View(BoxLayout):
 
-    sound = SoundLoader.load('./data/src_kivy_garden_xcamera_data_shutter.wav')
+    sound = SoundLoader.load('data/src_kivy_garden_xcamera_data_shutter.wav')
 
     def capture(self) -> None:
         '''

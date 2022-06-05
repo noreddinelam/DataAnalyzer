@@ -6,14 +6,9 @@ import os
 from fastapi import FastAPI, File, UploadFile
 from pydantic import BaseModel
 
-IMAGES_CAPTURED_PATH = "./images_captured"
+IMAGES_CAPTURED_PATH = "./images/"
 
 app = FastAPI()
-
-@app.get("/hello")
-def root():
-    return {"message": "Hello World"}
-
 
 @app.post("/upload_image/{model}")
 async def upload_image(model: str, image: UploadFile = File(...)) -> dict[str, str]:
@@ -21,7 +16,7 @@ async def upload_image(model: str, image: UploadFile = File(...)) -> dict[str, s
     if not os.path.exists(IMAGES_CAPTURED_PATH):
         os.mkdir(IMAGES_CAPTURED_PATH)
 
-    image_name = IMAGES_CAPTURED_PATH + "/" + image.filename
+    image_name = IMAGES_CAPTURED_PATH + image.filename
 
     async with aiofiles.open(image_name, 'wb') as out_file:
         while content := await image.read(1024):

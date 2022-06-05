@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 
-from src.modules.utils import make_dir
+from src.utils.utils import make_dir
 
 from webdriver_manager.firefox import GeckoDriverManager
 
