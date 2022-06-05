@@ -17,4 +17,5 @@ src/dataset
 src/resources/*
 digit_data/*
 src/api/images_captured
+src/benchmark
 
