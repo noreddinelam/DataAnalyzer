@@ -79,7 +79,7 @@ class View(BoxLayout):
         camera.export_to_png(filename)
         # pil_image = Image.frombytes(mode='RGBA', size=camera.texture.size, data=camera.texture.pixels)
         # numpy_picture = numpy.array(pil_image)
-        r = requests.post(url='http://127.0.0.1:8000/upload_image', files={'image': open(filename, 'rb')}, data={'model': spinner.text})
+        r = requests.post(url='http://127.0.0.1:8000/upload_image/' + spinner.text, files={'image': open(filename, 'rb')})
         print(r.json())
 
         print("Captured")

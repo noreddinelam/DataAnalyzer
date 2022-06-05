@@ -10,19 +10,14 @@ IMAGES_CAPTURED_PATH = "./images_captured"
 
 app = FastAPI()
 
-
-class Data(BaseModel):
-    model: str
-
-
 @app.get("/hello")
 def root():
     return {"message": "Hello World"}
 
 
-@app.post("/upload_image")
-async def upload_image(data: Data, image: UploadFile = File(...)) -> dict[str, str]:
-    print(data)
+@app.post("/upload_image/{model}")
+async def upload_image(model: str, image: UploadFile = File(...)) -> dict[str, str]:
+    print(model)
     if not os.path.exists(IMAGES_CAPTURED_PATH):
         os.mkdir(IMAGES_CAPTURED_PATH)
 
