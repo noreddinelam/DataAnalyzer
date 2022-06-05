@@ -1,7 +1,10 @@
 from pyexpat import model
-from PIL import Image as PImage
+
+import imageio
+from PIL import Image
 import numpy as np
 import cv2
+from matplotlib import pyplot as plt
 
 from tensorflow import keras
 
@@ -18,25 +21,26 @@ def resize(img_path):
 
 
 def loadImage(path):
-    return PImage.open(path)
+    return Image.open(path)
 
+def image(image_path):
+    image = plt.imread(image_path)
+    image = image[:, :, 0]
 
-def black_and_white(img):
-    pixels = img.load()
-    pix = pixels[0, 0]
-    f=0
-    for i in range(img.size[0]):  # for every pixel:
-        for j in range(img.size[1]):
-            for k in range(3):
-                f += pixels[i, j][k] - pix[k]
+    image_2 = np.copy(image)
 
-            if f > 50 or f < -50:
-                if (f!=0) : print(f)
-                pixels[i, j] = (255, 255, 255)
-            else:
-                #white
-                pixels[i, j] = (0, 0, 0)
-            f=0
+    plt.hist(image_2.ravel(), bins=255)
+    plt.imshow(image, cmap="gray")
+
+    image = image > 0.37
+    image = np.where(image, 0, 255)
+    #im = Image.fromarray(image, "RGB")
+    #im.save("../api/images_captured/new_image.png")
+    imageio.imwrite("../api/images_captured/new_image.png", image)
+
+    plt.imshow(image)
+    plt.show()
+
 
 def predict_model(img_path, model_name, model):
     # your images in an array
@@ -48,7 +52,8 @@ def predict_model(img_path, model_name, model):
     if(model_name == "digit" or model_name == "letter"):
         if( img.size != (28,28)):
             print("ici")
-            black_and_white(img)
+            image(img_path)
+            img = loadImage("../api/images_captured/new_image.png")
         img = img.resize((28, 28))
     
     if(model_name == "catvsdog"):
@@ -90,5 +95,6 @@ def perfom_prediction(img_path,mode):
 
 if __name__ == '__main__':
     #Run test
-    img_path = "/home/azureuser/digit_data/testing/0/7410.png"
-    perfom_prediction(img_path,"digit")
+    #img_path = "/home/azureuser/digit_data/testing/0/7410.png"
+    #perfom_prediction(img_path,"digit")
+    image()

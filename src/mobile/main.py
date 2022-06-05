@@ -17,7 +17,7 @@ Builder.load_string('''
     orientation: 'vertical'
     Camera:
         id: camera
-        resolution: (640, 480)
+        resolution: (1280, 720)
         play: True
         allow_stretch: True
     Label:
