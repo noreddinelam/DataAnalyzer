@@ -1,7 +1,8 @@
+from pyexpat import model
 from PIL import Image as PImage
 import numpy as np
-
 import cv2
+
 
 width = 28
 height = 28
@@ -13,12 +14,6 @@ def resize(img_path):
     resized = cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
     cv2.imwrite(img_path, resized)
 
-
-# resize("C:\\Users\\idris\\OneDrive\\IMAGES\\dola.png")
-
-def invert_color(img_path):
-    img = cv2.imread(img_path, cv2.IMREAD_UNCHANGED)
-    # TODO : black and white image or gray we will see if we need it or we use rgb
 
 
 def loadImage(path):
@@ -43,16 +38,26 @@ def black_and_white(img):
                 pixels[i, j] = (0, 0, 0)
             f=0
 
-#TODO : make the white thicker
 
+
+"""
+
+    TODO differencier les models
+
+"""
 
 def predict_model(img_path,model):
     # your images in an array
+   
     img = loadImage(img_path)
     img.show()
-    if( img.size != (28,28)):
-        black_and_white(img)
-    img = img.resize((28, 28))
+    
+    #difirencier le model chat vs chien 150*150
+    if("digit" in img_path or "letter" in img_path):
+        if( img.size != (28,28)):
+            black_and_white(img)
+        img = img.resize((28, 28))
+    
     img.show()
     img = np.array(img)
     if (len(img.shape) != 3):
