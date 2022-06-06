@@ -17,12 +17,21 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.core.audio import SoundLoader
 import time
 
+from kivy.core.window import Window
+Window.size = (580, 500)
+
 Builder.load_string('''
 <View>:
     orientation: 'vertical'
+    Spinner:
+        id: langage
+        size_hint: .1, .1
+        pos_hint: {'right': 1, 'top': 1}
+        text: "fr"
+        values: ["fr", "en", "es", "nl", "da", "cs", "de", "hi", "id", "it", "ja", "zh-cn", "zh-tw"]
     Camera:
         id: camera
-        resolution: (1280, 720)
+        resolution: (1440, 960)
         play: True
         allow_stretch: True
     Label:
@@ -33,7 +42,7 @@ Builder.load_string('''
         opacity: 0
         disabled: True
     Spinner:
-        id: spinner_id
+        id: spinner_model
         size_hint_y: None
         height: '48dp'
         text: "Choice mode"
@@ -59,7 +68,6 @@ class View(BoxLayout):
         '''
         camera = self.ids['camera']
         capture_btn = self.ids["capture_btn"]
-        model_name = self.ids["spinner_id"]
         label = self.ids["label_result"]
 
         if self.sound and camera.play:
@@ -81,14 +89,14 @@ class View(BoxLayout):
         camera.export_to_png(filename)
         # pil_image = Image.frombytes(mode='RGBA', size=camera.texture.size, data=camera.texture.pixels)
         # numpy_picture = numpy.array(pil_image)
-        r = requests.post(url='http://127.0.0.1:8000/upload_image/' + model_name.text,
+        r = requests.post(url='http://127.0.0.1:8000/upload_image/' + self.ids["spinner_model"].text,
                           files={'image': open(filename, 'rb')})
 
         label.text = "It's a " + r.text
         label.opacity = 1
         label.disabled = False
 
-        tts = gTTS(text=r.text, lang='en')
+        tts = gTTS(text=r.text, lang=self.ids["langage"].text)
 
         # speak
         if r.text in ("dog", "cat"):
