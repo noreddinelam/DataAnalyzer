@@ -9,8 +9,7 @@
             - kivy
             - uvicorn
             - aiofiles
-            - gi
-            - picamera
+            - opencv-python
             - python-multipart
         - **Models :**
             - tenserflow
@@ -35,3 +34,13 @@
   and start dataset_generator from **data/dataset_generator.py**. You have to specifiy the number of pictures and what
   you are looking for.
 - The result images are in the ressources directory devided into two sections : **training** and **validation**.
+
+## DataSets :
+
+- If you want to use a valid datasets see the link below :
+
+***Cat VS Dog*** : https://github.com/abdellah-idris/catvsdog_dataset
+
+***letters*** : https://github.com/abdellah-idris/letters_dataset
+
+***digits*** : https://github.com/abdellah-idris/digit_data
