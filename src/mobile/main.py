@@ -1,4 +1,9 @@
 import os
+from io import BytesIO
+
+import pyttsx3
+from gtts import gTTS
+from playsound import playsound
 
 from src.api.api import run_api_server
 from threading import Thread
@@ -45,7 +50,6 @@ kivy.require('2.0.0')
 
 
 class View(BoxLayout):
-
     sound = SoundLoader.load('data/src_kivy_garden_xcamera_data_shutter.wav')
 
     def capture(self) -> None:
@@ -77,12 +81,20 @@ class View(BoxLayout):
         camera.export_to_png(filename)
         # pil_image = Image.frombytes(mode='RGBA', size=camera.texture.size, data=camera.texture.pixels)
         # numpy_picture = numpy.array(pil_image)
-        r = requests.post(url='http://127.0.0.1:8000/upload_image/' + model_name.text, files={'image': open(filename, 'rb')})
+        r = requests.post(url='http://127.0.0.1:8000/upload_image/' + model_name.text,
+                          files={'image': open(filename, 'rb')})
 
         label.text = "It's a " + r.text
         label.opacity = 1
         label.disabled = False
 
+        tts = gTTS(text=r.text, lang='en')
+
+        # speak
+        filename_mp3 = "res.mp3"
+        tts.save(filename_mp3)
+        playsound(filename_mp3)
+        os.remove(filename_mp3)
 
         print("Captured")
 
