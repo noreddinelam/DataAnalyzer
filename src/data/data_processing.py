@@ -5,6 +5,7 @@ from PIL import Image
 import numpy as np
 from matplotlib import pyplot as plt
 import string
+import cv2
 from tensorflow import keras
 
 width = 28
@@ -87,8 +88,7 @@ def predict_model(img_path, model_name, model):
         return str(classes.argmax(1)[0])
     else:
         print("catvsdog")
-
-    return str(classes[0][0])
+        return str(classes[0][0])
 
 #Load the model
 
