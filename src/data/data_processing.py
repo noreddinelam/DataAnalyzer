@@ -71,7 +71,7 @@ def predict_model(img_path, model_name, model):
     if(model_name == "catvsdog"):
         img = img.resize((150, 150))
     
-    img.show()
+    #img.show()
     img = np.array(img)
     if (len(img.shape) != 3):
         image_color = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
