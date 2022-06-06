@@ -6,7 +6,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 import string
 from tensorflow import keras
-import cv2
 
 width = 28
 height = 28
