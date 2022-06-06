@@ -1,12 +1,8 @@
 import os
-from io import BytesIO
 
-import pyttsx3
 from gtts import gTTS
 from playsound import playsound
-
-from src.api.api import run_api_server
-from threading import Thread
+from google_translate_py import Translator
 
 import kivy
 import requests
@@ -18,6 +14,7 @@ from kivy.core.audio import SoundLoader
 import time
 
 from kivy.core.window import Window
+
 Window.size = (580, 500)
 
 Builder.load_string('''
@@ -69,6 +66,7 @@ class View(BoxLayout):
         camera = self.ids['camera']
         capture_btn = self.ids["capture_btn"]
         label = self.ids["label_result"]
+        langage = self.ids["langage"].text
 
         if self.sound and camera.play:
             self.sound.play()
@@ -96,16 +94,17 @@ class View(BoxLayout):
         label.opacity = 1
         label.disabled = False
 
-        tts = gTTS(text=r.text, lang=self.ids["langage"].text)
+        # translate
+        res = Translator().translate(r.text, "en", langage) if r.text in ("dog", "cat") else r.text
+        # sound
+        filename_mp3 = "res.mp3"
+        tts = gTTS(text=res, lang=langage)
+        tts.save(filename_mp3)
+        playsound(filename_mp3)
+        os.remove(filename_mp3)
 
-        # speak
         if r.text in ("dog", "cat"):
             playsound("data/" + r.text + ".wav")
-        else:
-            filename_mp3 = "res.mp3"
-            tts.save(filename_mp3)
-            playsound(filename_mp3)
-            os.remove(filename_mp3)
 
         print("Captured")
 
