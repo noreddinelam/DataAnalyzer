@@ -14,6 +14,8 @@ dim = (width, height)
 alphabet_string = string.ascii_uppercase
 alphabet_list = list(alphabet_string)
 
+catvsdog_list = ["cat","dog"]
+
 def resize(img_path):
     img = cv2.imread(img_path, cv2.IMREAD_UNCHANGED)
     resized = cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
@@ -102,7 +104,7 @@ def perfom_prediction(img_path,mode):
     elif(mode=="letter"):
         return alphabet_list[int(predict_model(img_path, mode, letter_model))]
     elif(mode=="catvsdog"):
-        return predict_model(img_path, mode, "you have to replace with the cat/dog model")
+        return catvsdog_list[int(predict_model(img_path, mode, "you have to replace with the cat/dog model"))]
 
 
 
