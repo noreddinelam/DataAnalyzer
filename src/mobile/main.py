@@ -91,10 +91,13 @@ class View(BoxLayout):
         tts = gTTS(text=r.text, lang='en')
 
         # speak
-        filename_mp3 = "res.mp3"
-        tts.save(filename_mp3)
-        playsound(filename_mp3)
-        os.remove(filename_mp3)
+        if r.text in ("dog", "cat"):
+            playsound("data/" + r.text + ".wav")
+        else:
+            filename_mp3 = "res.mp3"
+            tts.save(filename_mp3)
+            playsound(filename_mp3)
+            os.remove(filename_mp3)
 
         print("Captured")
 
