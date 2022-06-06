@@ -89,15 +89,10 @@ class View(BoxLayout):
         os.remove(filename)
 
 
-class Test(App):
+class APP(App):
     def build(self) -> View:
         return View()
 
 
 if __name__ == "__main__":
-    """try:
-        Thread(target=run_api_server).start()
-        Thread(target=Test().run()).start()
-    except KeyboardInterrupt:
-        exit()"""
-    Test().run()
+    APP().run()

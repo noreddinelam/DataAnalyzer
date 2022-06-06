@@ -3,7 +3,6 @@ from pyexpat import model
 import imageio
 from PIL import Image
 import numpy as np
-import cv2
 from matplotlib import pyplot as plt
 
 from tensorflow import keras
@@ -81,13 +80,14 @@ def predict_model(img_path, model_name, model):
 #Load the model
 
 digit_model = keras.models.load_model("../models/digit_model.h5")
-
+letter_model = keras.models.load_model("../models/letter_model.h5")
+#TODO : cat vs dog model
 
 def perfom_prediction(img_path,mode):
     if(mode=="digit"):
         return predict_model(img_path, mode, digit_model)
     elif(mode=="letter"):
-        return predict_model(img_path, mode, "you have to replace with the letter model")
+        return predict_model(img_path, mode, letter_model)
     elif(mode=="catvsdog"):
         return predict_model(img_path, mode, "you have to replace with the cat/dog model")
 

@@ -15,8 +15,6 @@ from webdriver_manager.firefox import GeckoDriverManager
 DATASET_TRAINING_FOLDER = "../resources/digits-dataset/digit-training/"
 DATASET_VALIDATION_FOLDER = "../resources/digits-dataset/digit-validation/"
 
-# TODO : refactor
-
 driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
 
 
