@@ -82,13 +82,13 @@ def predict_model(img_path, model_name, model):
     x = np.expand_dims(image_color, axis=0)
     classes = model.predict(x)
     print(classes)
-    print(classes.argmax(1))
-    #max_value = max(classes[0])
-    #print(max_value)
-    #max_index = np.where(classes[0] == max_value)
-    #print(max_index[0][0])
-    
-    return str(classes.argmax(1)[0])
+    if (model_name == "digit" or model_name == "letter"):
+        print(classes.argmax(1))
+        return str(classes.argmax(1)[0])
+    else:
+        print("catvsdog")
+
+    return str(classes[0][0])
 
 #Load the model
 
