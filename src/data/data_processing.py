@@ -26,7 +26,8 @@ def loadImage(path):
 def image(image_path):
     image = plt.imread(image_path)
     image = image[:, :, 0]
-
+    print(image.shape)
+    print(image)
     image_2 = np.copy(image)
 
     plt.hist(image_2.ravel(), bins=255)
@@ -34,6 +35,15 @@ def image(image_path):
 
     image = image > 0.37
     image = np.where(image, 0, 255)
+    #modification des x premier et dernier pixel
+    #fin de l'image
+    image[:, image.shape[1]-150:] = 0
+    #début de l'image
+    image[:, :150] = 0
+
+
+
+    print(image[:,:200])
     #im = Image.fromarray(image, "RGB")
     #im.save("../api/images_captured/new_image.png")
     imageio.imwrite("../api/images_captured/new_image.png", image)
@@ -97,4 +107,4 @@ if __name__ == '__main__':
     #Run test
     #img_path = "/home/azureuser/digit_data/testing/0/7410.png"
     #perfom_prediction(img_path,"digit")
-    image()
+    image(r"C:\Users\idris\OneDrive\Bureau\test.png")
