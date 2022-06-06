@@ -5,13 +5,14 @@ from PIL import Image
 import numpy as np
 import cv2
 from matplotlib import pyplot as plt
-
+import string
 from tensorflow import keras
 
 width = 28
 height = 28
 dim = (width, height)
-
+alphabet_string = string.ascii_uppercase
+alphabet_list = list(alphabet_string)
 
 def resize(img_path):
     img = cv2.imread(img_path, cv2.IMREAD_UNCHANGED)
@@ -91,13 +92,15 @@ def predict_model(img_path, model_name, model):
 #Load the model
 
 digit_model = keras.models.load_model("../models/digit_model.h5")
+# re train
+letter_model = keras.models.load_model("../models/letter_model.h5")
 
 
 def perfom_prediction(img_path,mode):
     if(mode=="digit"):
         return predict_model(img_path, mode, digit_model)
     elif(mode=="letter"):
-        return predict_model(img_path, mode, "you have to replace with the letter model")
+        return alphabet_list[int(predict_model(img_path, mode, letter_model))]
     elif(mode=="catvsdog"):
         return predict_model(img_path, mode, "you have to replace with the cat/dog model")
 
@@ -107,4 +110,5 @@ if __name__ == '__main__':
     #Run test
     #img_path = "/home/azureuser/digit_data/testing/0/7410.png"
     #perfom_prediction(img_path,"digit")
-    image(r"C:\Users\idris\OneDrive\Bureau\test.png")
+    ""
+    #predict_model(r"C:\Users\idris\OneDrive\Bureau\Study\s6\DATA\Dataset1\letter data set\testing\Z\4.jpg", 'letter', letter_model)
