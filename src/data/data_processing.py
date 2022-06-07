@@ -21,16 +21,12 @@ def resize(img_path):
     resized = cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
     cv2.imwrite(img_path, resized)
 
-
-
 def loadImage(path):
     return Image.open(path)
 
 def image(image_path):
     image = plt.imread(image_path)
     image = image[:, :, 0]
-    print(image.shape)
-    print(image)
     image_2 = np.copy(image)
 
     plt.hist(image_2.ravel(), bins=255)
@@ -40,15 +36,9 @@ def image(image_path):
     image = np.where(image, 0, 255)
     #modification des x premier et dernier pixel
     #fin de l'image
-    image[:, image.shape[1]-150:] = 0
+    image[:, image.shape[1]-200:] = 0
     #début de l'image
-    image[:, :150] = 0
-
-
-
-    print(image[:,:200])
-    #im = Image.fromarray(image, "RGB")
-    #im.save("../api/images_captured/new_image.png")
+    image[:, :200] = 0
     imageio.imwrite("../api/images_captured/new_image.png", image)
 
     plt.imshow(image)
@@ -64,12 +54,12 @@ def predict_model(img_path, model_name, model):
     #difirencier le model chat vs chien 150*150
     if(model_name == "digit" or model_name == "letter"):
         if( img.size != (28,28)):
-            print("ici")
             image(img_path)
             img = loadImage("../api/images_captured/new_image.png")
         img = img.resize((28, 28))
     
     if(model_name == "catvsdog"):
+        img = loadImage("../api/images_captured/new_image.png")
         img = img.resize((150, 150))
     
     #img.show()
@@ -94,7 +84,7 @@ def predict_model(img_path, model_name, model):
 
 digit_model = keras.models.load_model("../models/digit_model.h5")
 letter_model = keras.models.load_model("../models/letter_model.h5")
-#TODO : cat vs dog model
+catvsdog_model = keras.models.load_model("../models/catvsdog_model.h5")
 
 def perfom_prediction(img_path,mode):
     if(mode=="digit"):
@@ -102,13 +92,7 @@ def perfom_prediction(img_path,mode):
     elif(mode=="letter"):
         return alphabet_list[int(predict_model(img_path, mode, letter_model))]
     elif(mode=="catvsdog"):
-        return catvsdog_list[int(predict_model(img_path, mode, "you have to replace with the cat/dog model"))]
-
-
+        return catvsdog_list[int(float(predict_model(img_path, mode, catvsdog_model)))]
 
 if __name__ == '__main__':
-    #Run test
-    #img_path = "/home/azureuser/digit_data/testing/0/7410.png"
-    #perfom_prediction(img_path,"digit")
-    ""
-    #predict_model(r"C:\Users\idris\OneDrive\Bureau\Study\s6\DATA\Dataset1\letter data set\testing\Z\4.jpg", 'letter', letter_model)
+    predict_model(r"C:\Users\idris\OneDrive\Bureau\Study\s6\DATA\Dataset1\letter data set\testing\Z\4.jpg", 'letter', letter_model)

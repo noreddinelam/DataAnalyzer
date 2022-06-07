@@ -19,6 +19,10 @@
             - ceaborn
         - **Scrapping :**
             - Selenium
+        - **Sounds :**
+            - gtts
+            - playsound 1.2.2 using ```pip install playsound=1.2.2```
+            - google_translate.py
 
     - ***Running the application:***
         - Start By running the application backend from the **api/api.py**.

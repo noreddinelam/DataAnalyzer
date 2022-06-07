@@ -97,7 +97,7 @@ class View(BoxLayout):
         # translate
         res = Translator().translate(r.text, "en", langage) if r.text in ("dog", "cat") else r.text
         # sound
-        filename_mp3 = "res.mp3"
+        filename_mp3 = "./res.mp3"
         tts = gTTS(text=res, lang=langage)
         tts.save(filename_mp3)
         playsound(filename_mp3)
@@ -105,8 +105,6 @@ class View(BoxLayout):
 
         if r.text in ("dog", "cat"):
             playsound("data/" + r.text + ".wav")
-
-        print("Captured")
 
         os.remove(filename)
 
