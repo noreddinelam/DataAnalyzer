@@ -36,9 +36,9 @@ def image(image_path):
     image = np.where(image, 0, 255)
     #modification des x premier et dernier pixel
     #fin de l'image
-    image[:, image.shape[1]-200:] = 0
+    image[:, image.shape[1]-150:] = 0
     #début de l'image
-    image[:, :200] = 0
+    image[:, :150] = 0
     imageio.imwrite("../api/images_captured/new_image.png", image)
 
     plt.imshow(image)
@@ -83,7 +83,7 @@ def predict_model(img_path, model_name, model):
 #Load the model
 
 digit_model = keras.models.load_model("../models/digit_model.h5")
-letter_model = keras.models.load_model("../models/letter_model.h5")
+letter_model = keras.models.load_model("../models/letter2_model.h5")
 catvsdog_model = keras.models.load_model("../models/catvsdog_model.h5")
 
 def perfom_prediction(img_path,mode):
