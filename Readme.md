@@ -16,7 +16,8 @@
             - keras
             - matplotlib
             - numpy
-            - ceaborn
+            - seaborn
+            - sklearn
         - **Scrapping :**
             - Selenium
         - **Sounds :**
@@ -48,3 +49,6 @@
 ***letters*** : https://github.com/abdellah-idris/letters_dataset
 
 ***digits*** : https://github.com/abdellah-idris/digit_data
+
+###Remark : 
+**You need to verify the paths specified in the models and change them according to your dataset location.**
