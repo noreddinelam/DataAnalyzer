@@ -85,7 +85,7 @@ def predict_model(img_path, model_name, model):
 #Load the model
 
 digit_model = keras.models.load_model("../models/digit_model.h5")
-letter_model = keras.models.load_model("../models/letter3_model.h5")
+letter_model = keras.models.load_model("../models/letter4_model.h5")
 catvsdog_model = keras.models.load_model("../models/catvsdog_model.h5")
 
 def perfom_prediction(img_path,mode):
