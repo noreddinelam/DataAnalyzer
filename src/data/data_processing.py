@@ -95,6 +95,3 @@ def perfom_prediction(img_path,mode):
         return alphabet_list[int(predict_model(img_path, mode, letter_model))]
     elif(mode=="catvsdog"):
         return catvsdog_list[int(float(predict_model(img_path, mode, catvsdog_model)))]
-
-if __name__ == '__main__':
-    predict_model(r"C:\Users\idris\OneDrive\Bureau\Study\s6\DATA\Dataset1\letter data set\testing\Z\4.jpg", 'letter', letter_model)
