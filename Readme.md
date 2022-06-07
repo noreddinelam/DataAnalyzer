@@ -16,7 +16,8 @@
             - keras
             - matplotlib
             - numpy
-            - ceaborn
+            - seaborn
+            - sklearn
         - **Scrapping :**
             - Selenium
         - **Sounds :**
