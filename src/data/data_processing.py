@@ -59,7 +59,9 @@ def predict_model(img_path, model_name, model):
         img = img.resize((28, 28))
     
     if(model_name == "catvsdog"):
-        img = loadImage("../api/images_captured/new_image.png")
+        imageio.imwrite("../api/images_captured/new_image.png", img)
+        rgba_image = Image.open("../api/images_captured/new_image.png")
+        img = rgba_image.convert('RGB')
         img = img.resize((150, 150))
     
     #img.show()
