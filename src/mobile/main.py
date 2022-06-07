@@ -103,8 +103,10 @@ class View(BoxLayout):
         playsound(filename_mp3)
         os.remove(filename_mp3)
 
-        if r.text in ("dog", "cat"):
-            playsound("data/" + r.text + ".wav")
+        mode = r.text.replace("\"", "")
+
+        if mode == "dog" or mode == "cat":
+            playsound("./data/" + mode + ".wav")
 
         os.remove(filename)
 
