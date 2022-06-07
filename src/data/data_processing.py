@@ -59,7 +59,9 @@ def predict_model(img_path, model_name, model):
         img = img.resize((28, 28))
     
     if(model_name == "catvsdog"):
-        img = loadImage("../api/images_captured/new_image.png")
+        imageio.imwrite("../api/images_captured/new_image.png", img)
+        rgba_image = Image.open("../api/images_captured/new_image.png")
+        img = rgba_image.convert('RGB')
         img = img.resize((150, 150))
     
     #img.show()
@@ -83,7 +85,7 @@ def predict_model(img_path, model_name, model):
 #Load the model
 
 digit_model = keras.models.load_model("../models/digit_model.h5")
-letter_model = keras.models.load_model("../models/letter2_model.h5")
+letter_model = keras.models.load_model("../models/letter3_model.h5")
 catvsdog_model = keras.models.load_model("../models/catvsdog_model.h5")
 
 def perfom_prediction(img_path,mode):
@@ -93,6 +95,3 @@ def perfom_prediction(img_path,mode):
         return alphabet_list[int(predict_model(img_path, mode, letter_model))]
     elif(mode=="catvsdog"):
         return catvsdog_list[int(float(predict_model(img_path, mode, catvsdog_model)))]
-
-if __name__ == '__main__':
-    predict_model(r"C:\Users\idris\OneDrive\Bureau\Study\s6\DATA\Dataset1\letter data set\testing\Z\4.jpg", 'letter', letter_model)
